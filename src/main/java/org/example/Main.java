@@ -1,9 +1,12 @@
 package org.example;
 
 import java.util.*;
+
 import static org.example.BalancedBracketService.isBalancedBrackets;
 
 public class Main {
+    private final static int REQUIRED_VALUE = 7;
+    private final static String REQUIRED_NAME = "Вячеслав";
     public final static String s1 = "[((())()(())]]";
     public final static String s2 = "[((())()(()))]";
     public final static String s3 = "[[(())()(())]]";
@@ -14,17 +17,33 @@ public class Main {
         task3();
         task4();
     }
+
     public static void task1() {
         System.out.println("Тестовое задание");
         System.out.println(" ");
         System.out.println("Задание № 1");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите любое число больше 7:  ");
-        int x = scanner.nextInt();
-        if (x > 7) {
-            System.out.println("Привет");
+        System.out.printf("Введите любое число больше  %d: %n", REQUIRED_VALUE);
+        String inputLine = "";
+        if (scanner.hasNext()) {
+            inputLine = scanner.next();
         }
-        System.out.println("Вы ввели число меньше 7:  " + x);
+        if (!inputLine.matches("\\d+")) {
+            System.out.println("Некорректный ввод: необходимо ввести положительное число\n");
+            return;
+        }
+        int number;
+        try {
+            number = Integer.parseInt(inputLine);
+        } catch (NumberFormatException e) {
+            System.out.println("Введенное значение слишком большое\n");
+            return;
+        }
+        if (number > REQUIRED_VALUE) {
+            System.out.println("Привет!\n");
+            return;
+        }
+        System.out.printf(String.format("Вы ввели число меньше %d: ", REQUIRED_VALUE) + number);
         System.out.println(" ");
     }
 
@@ -34,8 +53,8 @@ public class Main {
         System.out.println("Введите любое имя:  ");
         String name = scanner.next();
         System.out.println("Вы ввели имя:  " + name);
-        if (name.equals("Вячеслав")) {
-            System.out.println("Привет, Вячеслав");
+        if (name.equals(REQUIRED_NAME)) {
+            System.out.printf("Привет  %s ", REQUIRED_NAME);
         } else {
             System.out.println("Нет такого имени");
         }
@@ -55,6 +74,8 @@ public class Main {
                 array[i] = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Необходимо вводить числа, а не буквы");
+            } catch (NumberFormatException e) {
+                System.out.println("Введенное значение слишком большое");
             }
         }
         System.out.println("Вы ввели массив  : " + Arrays.toString(array));
@@ -64,11 +85,11 @@ public class Main {
                 System.out.println(array[j]);
             }
         }
-        System.out.println(" ");
         /**
          *  Закрываем сканнер во избежание утечки памяти;
          */
         scanner.close();
+        System.out.println(" ");
     }
 
     /**
